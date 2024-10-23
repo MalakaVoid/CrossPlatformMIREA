@@ -19,7 +19,7 @@ public class Main {
             Patient patient = new Patient(i);
             clinic.addPatient(patient);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
