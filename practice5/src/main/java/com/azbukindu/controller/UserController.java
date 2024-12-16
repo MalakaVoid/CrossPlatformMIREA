@@ -17,20 +17,19 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<UserEntity> getUserById(@RequestParam int id) {
-        UserEntity user = userService.getUser(id);
+    public ResponseEntity<UserEntity> retrieveUser(@RequestParam(value = "id", required = false) Integer userId,
+                                                   @RequestBody(required = false) UserRequestModel request) {
+        if (userId == null && request == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        int finalUserId = (userId != null) ? userId : request.getId();
+        UserEntity user = userService.getUser(finalUserId);
 
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/get")
-    public ResponseEntity<UserEntity> getUserByJson(@RequestBody UserRequestModel userRequestModel) {
-        UserEntity user = userService.getUser(userRequestModel.getId());
-
-        return ResponseEntity.ok(user);
-    }
-
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<UserEntity> addUser(@RequestBody UserRequestModel userRequestModel) {
         UserEntity user = userService.addUser(userRequestModel);
 
